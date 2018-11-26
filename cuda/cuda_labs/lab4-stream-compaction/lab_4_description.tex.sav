@@ -1,0 +1,63 @@
+\documentclass[11.5pt]{article}
+\usepackage{graphics, graphicx, cite, fancybox, setspace}
+\usepackage{amsfonts, amssymb, amsmath, latexsym, epic, eepic, url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in]{geometry}
+%\usepackage{setspace}
+\begin{document}
+
+%% Different font in captions
+\newcommand{\captionfonts}{\bf}{\small}
+\makeatletter  % Allow the use of @ in command names
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\captionfonts #1: #2\par}
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother   % Cancel the effect of \makeatletter
+\renewcommand{\figurename}{Fig.} %Make the caption read Fig.
+
+\title{ECEC-413: Introduction to Parallel Computer Architecture \\ CUDA Programming Lab 4: Stream Compaction}
+\author{Prof. Naga Kandasamy, ECE Department, Drexel University}
+\maketitle %
+\date{}
+
+\noindent The Lab is due March 7, 2011. You may work on the assignment in teams of up to two people.
+\vspace{12pt}
+
+\noindent Edit the source files \texttt{scan\_largearray.cu} and scan largearray kernel.cu to complete the function-
+ality of stream compaction on the GPU using prex scan. Specically, you are provided with an array
+(or stream) comprising both positive and negative numbers, and you are asked to lter out only pos-
+itive values greater than zero and store these values in the compacted stream. A paper on how to
+implement prex scan on the GPU is available at http://http.developer.nvidia.com/GPUGems3/
+gpugems3_ch39.html. The scan largearray kernel.cu le has an implementation of the scan al-
+gorithm detailed in Fig. 39.2.2. Please use the kernel as a building block for stream compaction and
+add additional kernels as necessary. Section 39.3.1 of the paper discusses how to use prex scan for
+compacting a stream.
+
+\noindent Please e-mail me all of the files needed to compile and run your code as a single zip file.
+
+\vspace{12pt}
+
+\noindent Answer the following questions in a separate lab report.
+\begin{itemize}
+\item What is the measured floating-point computation rate for the CPU and GPU kernels on this application?  How do they each scale with the size of the input matrix?
+
+\item  How much time is spent as an overhead cost of using the GPU for computation?  Consider all code executed within your host function, with the exception of the kernel itself, as overhead. How does the overhead scale with the size of the input? You are free to use any timing library you like, as long as it has a reasonable accuracy.  Note that the CUDA utility library provides some timing functions which are modeled in the given test harness code, it you care to use those. Remember that kernel invocations are normally asynchronous, so if you want accurate timing of the kernel's running time, you need to insert a call to \texttt{cudaThreadSynchronize()} after the kernel invocation.
+\end{itemize}
+
+\noindent Your assignment will be graded on the following parameters:
+\begin{itemize}
+\item Correctness: 20 points. (Get your code to work using just GPU global memory, at the very least.)
+
+\item Functionality: 15 points. Correct handling of boundary conditions, using shared, texture, or constant memory to cover global memory latency.
+
+\item Report: 15 points.
+\end{itemize}
+
+\end{document}

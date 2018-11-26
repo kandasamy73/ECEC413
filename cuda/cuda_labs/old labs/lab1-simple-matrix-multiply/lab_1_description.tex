@@ -1,0 +1,59 @@
+\documentclass[11.5pt]{article}
+\usepackage{graphics, graphicx, cite, fancybox, setspace}
+\usepackage{amsfonts, amssymb, amsmath, latexsym, epic, eepic, url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in]{geometry}
+%\usepackage{setspace}
+\begin{document}
+
+%% Different font in captions
+\newcommand{\captionfonts}{\bf}{\small}
+\makeatletter  % Allow the use of @ in command names
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\captionfonts #1: #2\par}
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother   % Cancel the effect of \makeatletter
+\renewcommand{\figurename}{Fig.} %Make the caption read Fig.
+
+\title{ECEC 413: Introduction to Parallel Computer Architecture \\ CUDA Lab 1: Simple Matrix Multiplication}
+\author{Prof. Naga Kandasamy, ECE Department, Drexel University}
+\maketitle %
+\date{}
+
+\noindent The Lab is due February 22, 2010. You may work on the assignment in teams of up to two people.
+\vspace{12pt}
+
+\noindent \textbf{Important:} Before starting the lab assignment, please read the tutorial on getting the CUDA SDK working on the cluster. You will find the tutorial (written by Tony Shackleford) on webCT under the ``Labs'' folder. \vspace{24pt}
+
+\noindent Your lab assignment is as follows:
+\begin{itemize}
+\item Edit the \texttt{MatrixMulOnDevice()} function in \texttt{matrixmul.cu} and the \texttt{MatrixMulKernel()} function in \texttt{matrixmul\_kernel.cu} to complete the functionality of the matrix multiplication on the GPU. Do not change the source code elsewhere. The size of the matrix is defined such that one thread block will be sufficient to compute the entire solution matrix. The input matrices must be loaded from GPU global memory. The use of shared memory is not required for this assignment.
+
+\item Your program should accept no arguments. The application will create two randomly initialized matrices to multiply. After the GPU-based multiplication kernel is invoked, it will then compute the correct solution matrix using the CPU, and compare that solution with the GPU-computed solution. If the solutions match (within a certain tolerance), the application will print out ``Test PASSED'' to the screen before exiting.
+
+\item You must e-mail me \underline{all} of the files needed to compile and run your code as a single zip file.
+\end{itemize}
+\vspace{12pt}
+
+\noindent Also, once you have completed the assignment, answer the following questions in a separate lab report.
+\begin{itemize}
+\item How many times is each element of the input matrices loaded during the execution of the kernel?
+\item What is the memory-access to floating-point computation ratio in each thread? Consider a multiply and addition as separate operations, and ignore the storing of the result. Only global memory loads should be counted towards your off-chip bandwidth.
+\end{itemize}
+\vspace{24pt}
+
+\noindent Your assignment will be graded on the following parameters:
+\begin{itemize}
+\item Correctness: 25\%.
+\item Functionality: 40\%, that includes the correct usage of CUDA library calls and C extensions and the correct usage of thread id's in the matrix computation.
+\item Report: 35\%. Answer to question 1: 15\%, answer to question 2: 20\%
+\end{itemize}
+
+\end{document}

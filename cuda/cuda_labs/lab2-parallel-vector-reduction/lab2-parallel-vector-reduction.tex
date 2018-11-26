@@ -1,0 +1,37 @@
+\documentclass[12.0pt]{article}
+\usepackage{graphics, graphicx, cite, fancybox, setspace}
+\usepackage{amsfonts, amssymb, amsmath, latexsym, epic, eepic, url}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[letterpaper, left=1in, right=1in, top=1in, bottom=1in]{geometry}
+
+\begin{document}
+
+\title{ECEC-413: Introduction to Parallel Computer Architecture \\
+CUDA Programming Lab 2: Parallel Vector Reduction}
+\author{Prof. Naga Kandasamy, ECE Department, Drexel University}
+\maketitle %
+\date{}
+
+\noindent The lab is due on February 4, 2011. You may work on the problems in teams of up to two people.
+\vspace{12pt}
+
+\noindent Develop a GPU-based program to sum-reduce a large array of floating-point numbers to a single value. \vspace{12pt}
+
+\noindent Edit the source files \texttt{vector\_reduction.cu} and \texttt{vector\_reduction\_kernel.cu} to complete the functionality of the parallel addition reduction on the GPU.  The size of the array is guaranteed to be equal to $5,000,000$ (five million) elements for this assignment. Note that you may need to define a 2D grid of thread blocks to process an array this large. \vspace{12pt}
+
+\noindent Your program should accept no arguments. The application will create a randomly initialized array to
+    process. After the GPU kernel is invoked, it will compute the correct solution value using the CPU, and compare that solution with the GPU-computed solution.  If the solutions match (within a certain tolerance), it will print out ``Test PASSED'' to the screen before exiting. \vspace{12pt}
+
+\noindent You must e-mail me all of the files needed to run your code as a zip file called \texttt{lab\_2.zip}. \vspace{12pt}
+
+\noindent This lab will be graded on the following parameters:
+\begin{itemize}
+\item \emph{Correctness}: 50 points.
+
+\item \emph{Performance}: 25 points. This includes the efficient and clever use of shared memory. Also, for best performance, multiple invocations of the kernel will be necessary. For example, during the first step, each thread block will reduce the set of values assigned to it to a single value (using shared memory) and store these partial sums in GPU global memory. The kernel is invoked again to reduce these partial sums further, and so on.
+
+\item \emph{Report}: 25 points. A two/three page report describing how you designed your kernel (use code or pseudocode to clarify the discussion) and the amount of speedup obtained over the serial version.
+\end{itemize}
+
+\end{document}
